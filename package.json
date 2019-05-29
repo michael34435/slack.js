@@ -1,5 +1,5 @@
 {
-  "name": "slack.js",
+  "name": "slack-command.js",
   "main": "index.js",
   "version": "0.0.0",
   "description": "Slack bot built by botkit node.js",
@@ -21,6 +21,7 @@
     "eslint-plugin-import": "^2.17.2"
   },
   "dependencies": {
-    "botkit": "^0.7.4"
+    "botkit": "^0.7.4",
+    "node-xmpp-client": "^3.2.0"
   }
 }

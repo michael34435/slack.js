@@ -5,18 +5,18 @@ Build slack command bot with simple interface.
 ## Usage
 
 ```js
-const SlackBot = require('slack.js');
+const SlackCommand = require('slack-command.js');
 
-const bot = new SlackBot({ ... });
+const bot = new SlackCommand({ ... });
 
 bot
   .command('test', (bot, message) => {})
-  .action()
+  .action('...')
   .start(3000);
 ```
 
 ## Install
 
 ```bash
-npm i slack.js
+npm i slack-command.js
 ```
