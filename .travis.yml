@@ -1,0 +1,11 @@
+language: node_js
+if: tag IS present
+node_js:
+  - "10"
+deploy:
+  provider: npm
+  email: michael34435@capslock.tw
+  api_key: $NPM_TOKEN
+  on:
+    tags: true
+    repo: michael34435/slack.js
