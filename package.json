@@ -1,0 +1,26 @@
+{
+  "name": "slack.js",
+  "main": "index.js",
+  "version": "0.0.0",
+  "description": "Slack bot built by botkit node.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michael34435/slack.js.git"
+  },
+  "author": "michael34435 <michael34435@capslock.tw>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/michael34435/slack.js/issues"
+  },
+  "homepage": "https://github.com/michael34435/slack.js#readme",
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-node": "^0.3.2",
+    "eslint-plugin-import": "^2.17.2"
+  },
+  "dependencies": {
+    "botkit": "^0.7.4"
+  }
+}
