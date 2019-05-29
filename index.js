@@ -49,26 +49,26 @@ module.exports = class {
         }
       });
     this.slack.hears(['string', 'pattern .*', new RegExp('.*', 'i')], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
-      const team = this.slack.storage.teams.get(message.team);
-
-      if (!team) {
-        this.slack.storage.teams.save(
-          {
-            id: message.team,
-            bot: {
-              user_id: bot.identity.id,
-              name: bot.identity.name,
+      this.slack.storage.teams.get(message.team, (err, team) => {
+        if (!team) {
+          this.slack.storage.teams.save(
+            {
+              id: message.team,
+              bot: {
+                user_id: bot.identity.id,
+                name: bot.identity.name,
+              },
             },
-          },
-          (error) => {
-            if (error) {
-              throw new Error(`ERROR: ${error}`);
-            }
-          },
-        );
+            (error) => {
+              if (error) {
+                throw new Error(`ERROR: ${error}`);
+              }
+            },
+          );
 
-        bot.reply(message, 'Congratulations! You have installed your botkit chat bot!');
-      }
+          bot.reply(message, 'Congratulations! You have installed your botkit chat bot!');
+        }
+      });
     });
 
     this.slack.on('interactive_message_callback', (bot, message) => {
