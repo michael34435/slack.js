@@ -49,7 +49,7 @@ module.exports = class {
         }
 
         slackbot.api.team.info({}, (error, res) => {
-          this.slack.storage.teams.get(res.team.id, (err, team) => {
+          this.slack.storage.teams.get(res.team.id, (storageErr, team) => {
             if (!team) {
               this.slack.storage.teams.save(
                 {
@@ -59,9 +59,9 @@ module.exports = class {
                     name: slackbot.identity.name,
                   },
                 },
-                (error) => {
-                  if (error) {
-                    throw new Error(`ERROR: ${error}`);
+                (teamError) => {
+                  if (teamError) {
+                    throw new Error(`ERROR: ${teamError}`);
                   }
                 },
               );
