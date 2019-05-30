@@ -12,7 +12,7 @@ module.exports = class {
     this.slack = botkit
       .slackbot(
         {
-          debug: true,
+          debug: process.env.NODE_ENV !== 'production',
           json_file_store: this.storage,
           clientSigningSecret: this.clientSigningSecret,
         },
@@ -41,35 +41,34 @@ module.exports = class {
         }
       });
     });
-    this.slack
+    const slackbot = this.slack
       .spawn({ token: this.token })
       .startRTM((err) => {
         if (err) {
           throw new Error(`Could not connect to Slack:${err}`);
         }
-      });
-    this.slack.hears(['string', 'pattern .*', new RegExp('.*', 'i')], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
-      this.slack.storage.teams.get(message.team, (err, team) => {
-        if (!team) {
-          this.slack.storage.teams.save(
-            {
-              id: message.team,
-              bot: {
-                user_id: bot.identity.id,
-                name: bot.identity.name,
-              },
-            },
-            (error) => {
-              if (error) {
-                throw new Error(`ERROR: ${error}`);
-              }
-            },
-          );
 
-          bot.reply(message, 'Congratulations! You have installed your botkit chat bot!');
-        }
+        slackbot.api.team.info({}, (error, res) => {
+          this.slack.storage.teams.get(res.team.id, (err, team) => {
+            if (!team) {
+              this.slack.storage.teams.save(
+                {
+                  id: res.team.id,
+                  bot: {
+                    user_id: slackbot.identity.id,
+                    name: slackbot.identity.name,
+                  },
+                },
+                (error) => {
+                  if (error) {
+                    throw new Error(`ERROR: ${error}`);
+                  }
+                },
+              );
+            }
+          });
+        });
       });
-    });
 
     this.slack.on('interactive_message_callback', (bot, message) => {
       this.actions[message.callback_id](bot, message);
