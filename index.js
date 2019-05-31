@@ -72,17 +72,17 @@ module.exports = class {
       });
 
     this.slack.on('interactive_message_callback', (bot, message) => {
-      this.actions[message.callback_id](bot, message);
+      this.actions[message.callback_id](bot, message, slackbot);
     });
 
     this.slack.on('slash_command', (bot, message) => {
       const command = message.command.replace(/^\//, '');
 
-      this.commands[command](bot, message);
+      this.commands[command](bot, message, slackbot);
     });
 
     this.slack.on('dialog_submission', (bot, message) => {
-      this.dialogs[message.callback_id](bot, message);
+      this.dialogs[message.callback_id](bot, message, slackbot);
     });
   }
 
