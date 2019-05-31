@@ -9,6 +9,7 @@ module.exports = class {
     this.token = options.token;
     this.actions = {};
     this.commands = {};
+    this.dialogs = {};
     this.slack = botkit
       .slackbot(
         {
@@ -79,6 +80,10 @@ module.exports = class {
 
       this.commands[command](bot, message);
     });
+
+    this.slack.on('dialog_submission', (bot, message) => {
+      this.dialogs[message.callback_id](bot, message);
+    });
   }
 
   action(action, fn) {
@@ -89,6 +94,12 @@ module.exports = class {
 
   command(command, fn) {
     this.commands[command] = fn;
+
+    return this;
+  }
+
+  dialog(dialog, fn) {
+    this.dialogs[dialog] = fn;
 
     return this;
   }
